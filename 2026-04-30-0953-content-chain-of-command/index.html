@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Chain of Command — Humanitees</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f0f; color: #f0f0f0; padding: 24px 16px 48px; }
+
+  h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  p.sub { font-size: 0.8rem; color: #888; margin-bottom: 32px; }
+
+  .phase-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+  .phase-label.now { color: #4caf82; }
+  .phase-label.future { color: #f5a623; }
+
+  /* Org chart */
+  .org { display: flex; flex-direction: column; align-items: center; gap: 0; margin-bottom: 40px; }
+
+  .tier { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
+  .tier + .tier { margin-top: 0; }
+
+  .connector-v { width: 2px; height: 24px; background: #333; margin: 0 auto; }
+  .connector-h-wrap { display: flex; justify-content: center; position: relative; margin-bottom: 0; }
+
+  .node {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    min-width: 130px;
+    max-width: 160px;
+    text-align: center;
+    border: 1.5px solid #2a2a2a;
+    position: relative;
+  }
+  .node.founder { border-color: #4caf82; }
+  .node.editor  { border-color: #5b9cf6; }
+  .node.intern  { border-color: #a78bfa; border-style: dashed; }
+  .node.smm     { border-color: #f5a623; border-style: dashed; }
+  .node.offline { border-color: #444; opacity: 0.5; }
+
+  .node-role { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #666; margin-bottom: 3px; }
+  .node-name { font-size: 0.95rem; font-weight: 700; }
+  .node-detail { font-size: 0.7rem; color: #888; margin-top: 4px; line-height: 1.3; }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 6px;
+  }
+  .badge.now    { background: #1e3a2e; color: #4caf82; }
+  .badge.soon   { background: #2a2010; color: #f5a623; }
+  .badge.paused { background: #2a2a2a; color: #666; }
+
+  .lanes-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
+  @media (max-width: 500px) { .lanes-wrap { grid-template-columns: 1fr; } }
+
+  .lane-card { background: #1a1a1a; border-radius: 12px; padding: 16px; }
+  .lane-card.brand { border-top: 3px solid #4caf82; }
+  .lane-card.app   { border-top: 3px solid #5b9cf6; }
+  .lane-title { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .lane-card.brand .lane-title { color: #4caf82; }
+  .lane-card.app   .lane-title { color: #5b9cf6; }
+
+  .lane-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+  .lane-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .lane-icon.green { background: #1e3a2e; color: #4caf82; }
+  .lane-icon.blue  { background: #1a2a42; color: #5b9cf6; }
+  .lane-icon.purple{ background: #2a1e42; color: #a78bfa; }
+  .lane-icon.orange{ background: #3a2a10; color: #f5a623; }
+  .lane-text { font-size: 0.78rem; color: #ccc; line-height: 1.4; }
+  .lane-text strong { color: #fff; }
+
+  .note { background: #1a1a1a; border-radius: 10px; padding: 14px 16px; font-size: 0.8rem; color: #aaa; line-height: 1.5; border-left: 3px solid #333; }
+  .note strong { color: #fff; }
+  .note + .note { margin-top: 10px; }
+
+  .section-gap { margin-top: 28px; }
+
+  /* tree lines */
+  .tree-lines { display: flex; align-items: flex-start; justify-content: center; gap: 12px; position: relative; padding-top: 0; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch-line-top { width: 2px; height: 20px; background: #333; }
+</style>
+</head>
+<body>
+
+<h1>Content Chain of Command</h1>
+<p class="sub">Who does what · now and where we're headed</p>
+
+<!-- PHASE 1: NOW -->
+<div class="phase-label now">Phase 1 — Right Now</div>
+
+<div class="org">
+  <!-- Tier 1: Founders -->
+  <div class="tier">
+    <div class="node founder">
+      <div class="node-role">Co-founder</div>
+      <div class="node-name">Luke</div>
+      <div class="node-detail">On camera · strategy · direction</div>
+      <span class="badge now">Active</span>
+    </div>
+    <div class="node founder">
+      <div class="node-role">Co-founder</div>
+      <div class="node-name">Landon</div>
+      <div class="node-detail">On camera · videography</div>
+      <span class="badge now">Active</span>
+    </div>
+  </div>
+
+  <div class="connector-v"></div>
+
+  <!-- Tier 2: Editors -->
+  <div class="tier">
+    <div class="node editor">
+      <div class="node-role">Editor + Account Manager</div>
+      <div class="node-name">Jewel</div>
+      <div class="node-detail">App IG · App TikTok<br>Editing + posting + growth</div>
+      <span class="badge now">Expanding role</span>
+    </div>
+    <div class="node offline">
+      <div class="node-role">Editor</div>
+      <div class="node-name">Frank</div>
+      <div class="node-detail">Brand IG · Brand TikTok<br>Computer issues</div>
+      <span class="badge paused">Paused</span>
+    </div>
+  </div>
+</div>
+
+<!-- Output -->
+<div class="lanes-wrap">
+  <div class="lane-card brand">
+    <div class="lane-title">Brand Lane · Paused</div>
+    <div class="lane-row">
+      <div class="lane-icon green">F</div>
+      <div class="lane-text"><strong>Frank</strong> — offline. Lane holds until he's back. Don't consolidate into Jewel yet.</div>
+    </div>
+  </div>
+  <div class="lane-card app">
+    <div class="lane-title">App Lane · Active</div>
+    <div class="lane-row">
+      <div class="lane-icon blue">J</div>
+      <div class="lane-text"><strong>Jewel</strong> — editing, scheduling, and posting. Performance bonuses tied to ambassador signups from App accounts.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2: BUILDING TOWARD -->
+<div class="section-gap"></div>
+<div class="phase-label future">Phase 2 — Building Toward</div>
+
+<div class="org">
+  <!-- Tier 1: SMM -->
+  <div class="tier">
+    <div class="node smm">
+      <div class="node-role">Social Media Manager</div>
+      <div class="node-name">TBD</div>
+      <div class="node-detail">Oversees all 4 accounts<br>Ideas · scheduling · player mgmt</div>
+      <span class="badge soon">Last hire</span>
+    </div>
+  </div>
+
+  <div class="connector-v"></div>
+
+  <!-- Tier 2: Founders + Intern -->
+  <div class="tier">
+    <div class="node founder">
+      <div class="node-role">Co-founder</div>
+      <div class="node-name">Luke</div>
+      <div class="node-detail">On camera · final approval</div>
+      <span class="badge now">Active</span>
+    </div>
+    <div class="node founder">
+      <div class="node-role">Co-founder</div>
+      <div class="node-name">Landon</div>
+      <div class="node-detail">On camera · videography</div>
+      <span class="badge now">Active</span>
+    </div>
+    <div class="node intern">
+      <div class="node-role">Video Intern</div>
+      <div class="node-name">TBD</div>
+      <div class="node-detail">2nd camera · b-roll<br>Footage org · first-pass selects</div>
+      <span class="badge soon">Hire June</span>
+    </div>
+  </div>
+
+  <div class="connector-v"></div>
+
+  <!-- Tier 3: Editors -->
+  <div class="tier">
+    <div class="node editor">
+      <div class="node-role">Editor + Acct Mgr · App</div>
+      <div class="node-name">Jewel</div>
+      <div class="node-detail">App IG + TikTok<br>Edit · post · grow</div>
+      <span class="badge now">Active</span>
+    </div>
+    <div class="node editor">
+      <div class="node-role">Editor · Brand</div>
+      <div class="node-name">Frank</div>
+      <div class="node-detail">Brand IG + TikTok<br>Edit · brand identity</div>
+      <span class="badge soon">Back online</span>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 2 output -->
+<div class="section-gap"></div>
+<div class="note"><strong>Content flow (Phase 2):</strong> Luke + Landon + intern film → footage goes to Jewel (App) and Frank (Brand) → SMM schedules, tracks performance, generates next round of ideas → loop repeats.</div>
+<div class="note" style="margin-top:10px;"><strong>Hiring order:</strong> Intern first (June) — solves the footage bottleneck. SMM last — hire when coordination becomes the constraint, not content volume.</div>
+<div class="note" style="margin-top:10px;"><strong>Jewel's expanded role:</strong> Tie performance bonuses to ambassador signups from the App accounts, not follower count. Harder to game, directly tied to the business goal.</div>
+
+</body>
+</html>
