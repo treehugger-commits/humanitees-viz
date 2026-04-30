@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Media Strategy — Humanitees</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f0f; color: #f0f0f0; padding: 24px 16px 40px; }
+  h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  p.sub { font-size: 0.8rem; color: #888; margin-bottom: 28px; }
+
+  .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 540px) { .lanes { grid-template-columns: 1fr; } }
+
+  .lane { background: #1a1a1a; border-radius: 14px; padding: 20px; border-top: 3px solid; }
+  .lane.brand { border-color: #4caf82; }
+  .lane.app   { border-color: #5b9cf6; }
+
+  .lane-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .lane.brand .lane-title { color: #4caf82; }
+  .lane.app   .lane-title { color: #5b9cf6; }
+
+  .lane-desc { font-size: 0.8rem; color: #aaa; margin-bottom: 16px; line-height: 1.4; }
+
+  .channels { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .channel { background: #242424; border-radius: 8px; padding: 10px 12px; }
+  .channel .platform { font-size: 0.7rem; color: #888; margin-bottom: 2px; }
+  .channel .handle { font-size: 0.9rem; font-weight: 600; }
+
+  .editor-box { background: #242424; border-radius: 8px; padding: 12px; }
+  .editor-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #666; margin-bottom: 4px; }
+  .editor-name { font-size: 1rem; font-weight: 700; }
+  .editor-role { font-size: 0.75rem; color: #aaa; margin-top: 2px; }
+
+  .goal-box { margin-top: 12px; background: #1e1e1e; border-radius: 8px; padding: 12px; border-left: 3px solid #444; }
+  .goal-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #666; margin-bottom: 4px; }
+  .goal-text { font-size: 0.8rem; color: #ccc; line-height: 1.4; }
+
+  .phase { margin-top: 28px; background: #1a1a1a; border-radius: 14px; padding: 20px; border-top: 3px solid #f5a623; }
+  .phase-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #f5a623; margin-bottom: 8px; }
+  .phase-body { font-size: 0.85rem; color: #ccc; line-height: 1.5; }
+  .phase-body strong { color: #fff; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: #1a1a1a; border-radius: 10px; padding: 14px; text-align: center; }
+  .stat-num { font-size: 1.6rem; font-weight: 800; color: #fff; }
+  .stat-label { font-size: 0.7rem; color: #888; margin-top: 4px; }
+</style>
+</head>
+<body>
+<h1>Social Media Strategy</h1>
+<p class="sub">As of April 2026 · Full marketing push phase</p>
+
+<div class="lanes">
+  <div class="lane brand">
+    <div class="lane-title">Brand Lane</div>
+    <div class="lane-desc">Product showcase, brand identity, e-commerce</div>
+    <div class="channels">
+      <div class="channel">
+        <div class="platform">Instagram</div>
+        <div class="handle">Humanitees Official</div>
+      </div>
+      <div class="channel">
+        <div class="platform">TikTok</div>
+        <div class="handle">Humanitees Official</div>
+      </div>
+    </div>
+    <div class="editor-box">
+      <div class="editor-label">Video Editor</div>
+      <div class="editor-name">Frank</div>
+      <div class="editor-role">Philippines · Brand accounts</div>
+    </div>
+    <div class="goal-box">
+      <div class="goal-label">Primary goal</div>
+      <div class="goal-text">Drive shirt sales and brand awareness. Build the identity that makes people want to wear what matters.</div>
+    </div>
+  </div>
+
+  <div class="lane app">
+    <div class="lane-title">App Lane</div>
+    <div class="lane-desc">App marketing, student recruitment, ambassador program</div>
+    <div class="channels">
+      <div class="channel">
+        <div class="platform">Instagram</div>
+        <div class="handle">Humanitees App</div>
+      </div>
+      <div class="channel">
+        <div class="platform">TikTok</div>
+        <div class="handle">Humanitees App</div>
+      </div>
+    </div>
+    <div class="editor-box">
+      <div class="editor-label">Video Editor</div>
+      <div class="editor-name">Jewel</div>
+      <div class="editor-role">Philippines · App accounts</div>
+    </div>
+    <div class="goal-box">
+      <div class="goal-label">Primary goal</div>
+      <div class="goal-text">Recruit student ambassadors. Showcase the opportunity: earn, track impact, grow a referral network.</div>
+    </div>
+  </div>
+</div>
+
+<div class="stat-row">
+  <div class="stat">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Active accounts</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">~50</div>
+    <div class="stat-label">Ambassadors signed up</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">5–6</div>
+    <div class="stat-label">Actively selling</div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-title">Current Phase</div>
+  <div class="phase-body">
+    App UI/UX revamp completed <strong>April 2026</strong>. Now in <strong>full marketing push</strong>. Brand affinity (Official channels) feeds ambassador signups (App channels) — the two lanes are separate but interdependent. Primary goal: grow ambassador count and brand awareness across both.
+  </div>
+</div>
+
+</body>
+</html>
