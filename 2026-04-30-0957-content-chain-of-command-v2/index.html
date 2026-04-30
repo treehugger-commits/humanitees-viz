@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Chain of Command v2 — Humanitees</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f0f0f; color: #f0f0f0; padding: 24px 16px 48px; }
+  h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  p.sub { font-size: 0.8rem; color: #888; margin-bottom: 32px; }
+
+  .phase-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; padding: 6px 10px; border-radius: 6px; display: inline-block; }
+  .phase-label.now    { background: #1e3a2e; color: #4caf82; }
+  .phase-label.mid    { background: #1a2a42; color: #5b9cf6; }
+  .phase-label.end    { background: #3a2a10; color: #f5a623; }
+
+  .phase-block { margin-bottom: 36px; }
+
+  .org { display: flex; flex-direction: column; align-items: center; }
+  .tier { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .connector-v { width: 2px; height: 22px; background: #2a2a2a; margin: 0 auto; }
+
+  .node { background: #1a1a1a; border-radius: 10px; padding: 11px 14px; min-width: 120px; max-width: 155px; text-align: center; border: 1.5px solid #2a2a2a; }
+  .node.founder  { border-color: #4caf82; }
+  .node.smm      { border-color: #f5a623; }
+  .node.editor   { border-color: #5b9cf6; }
+  .node.intern   { border-color: #a78bfa; }
+  .node.ghost    { border-color: #2a2a2a; opacity: 0.35; }
+  .node.dashed   { border-style: dashed; }
+
+  .node-role   { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: #666; margin-bottom: 3px; }
+  .node-name   { font-size: 0.92rem; font-weight: 700; }
+  .node-detail { font-size: 0.68rem; color: #888; margin-top: 4px; line-height: 1.35; }
+
+  .badge { display: inline-block; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-top: 7px; }
+  .badge.green  { background: #1e3a2e; color: #4caf82; }
+  .badge.blue   { background: #1a2a42; color: #5b9cf6; }
+  .badge.orange { background: #3a2a10; color: #f5a623; }
+  .badge.purple { background: #2a1e42; color: #a78bfa; }
+  .badge.grey   { background: #222; color: #666; }
+
+  .callout { border-radius: 10px; padding: 14px 16px; font-size: 0.8rem; line-height: 1.5; margin-top: 10px; }
+  .callout.green  { background: #0f2218; border-left: 3px solid #4caf82; color: #aaa; }
+  .callout.blue   { background: #0f1a2a; border-left: 3px solid #5b9cf6; color: #aaa; }
+  .callout.orange { background: #201608; border-left: 3px solid #f5a623; color: #aaa; }
+  .callout strong { color: #fff; }
+
+  .goal-banner { background: #1a1a1a; border: 1.5px solid #f5a623; border-radius: 12px; padding: 18px; text-align: center; margin-bottom: 36px; }
+  .goal-banner .g-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: #f5a623; margin-bottom: 6px; }
+  .goal-banner .g-text { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.4; }
+  .goal-banner .g-sub { font-size: 0.75rem; color: #888; margin-top: 6px; }
+
+  .divider { border: none; border-top: 1px solid #222; margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<h1>Content Chain of Command</h1>
+<p class="sub">The goal · the phases · who owns what</p>
+
+<!-- END GOAL BANNER -->
+<div class="goal-banner">
+  <div class="g-label">The End Goal</div>
+  <div class="g-text">Social runs without Luke or Landon.</div>
+  <div class="g-sub">Four accounts posting, growing, and converting — on autopilot. Luke and Landon are available to film if they want to, not because the machine needs them.</div>
+</div>
+
+<!-- PHASE 1 -->
+<div class="phase-block">
+  <div class="phase-label now">Phase 1 — Now (May)</div>
+  <div class="org">
+    <div class="tier">
+      <div class="node founder">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Luke</div>
+        <div class="node-detail">Direction · on camera · content ideas</div>
+        <span class="badge green">Heavily involved</span>
+      </div>
+      <div class="node founder">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Landon</div>
+        <div class="node-detail">On camera · filming</div>
+        <span class="badge green">Heavily involved</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="tier">
+      <div class="node editor">
+        <div class="node-role">Editor + Acct Mgr · App</div>
+        <div class="node-name">Jewel</div>
+        <div class="node-detail">App IG + TikTok<br>Edit · post · manage</div>
+        <span class="badge blue">Expanding now</span>
+      </div>
+      <div class="node ghost">
+        <div class="node-role">Editor · Brand</div>
+        <div class="node-name">Frank</div>
+        <div class="node-detail">Brand lane — paused</div>
+        <span class="badge grey">Offline</span>
+      </div>
+    </div>
+  </div>
+  <div class="callout green" style="margin-top:14px;">
+    <strong>Luke's job in Phase 1:</strong> Film content and define what good looks like. But treat every piece of direction you give Jewel as something that should eventually not need you — document it, make it repeatable.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PHASE 2 -->
+<div class="phase-block">
+  <div class="phase-label mid">Phase 2 — June–July (Intern + Frank back)</div>
+  <div class="org">
+    <div class="tier">
+      <div class="node founder dashed">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Luke</div>
+        <div class="node-detail">Stepping back — approves direction, occasional camera</div>
+        <span class="badge green">Transitioning out</span>
+      </div>
+      <div class="node founder dashed">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Landon</div>
+        <div class="node-detail">Stepping back — films when needed</div>
+        <span class="badge green">Transitioning out</span>
+      </div>
+      <div class="node intern dashed">
+        <div class="node-role">Video Intern</div>
+        <div class="node-name">TBD</div>
+        <div class="node-detail">2nd camera · b-roll · footage org</div>
+        <span class="badge purple">Hire June</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="tier">
+      <div class="node editor">
+        <div class="node-role">Editor + Acct Mgr · App</div>
+        <div class="node-name">Jewel</div>
+        <div class="node-detail">App IG + TikTok<br>Full ownership</div>
+        <span class="badge blue">Full lane owner</span>
+      </div>
+      <div class="node editor dashed">
+        <div class="node-role">Editor · Brand</div>
+        <div class="node-name">Frank</div>
+        <div class="node-detail">Brand IG + TikTok<br>Back online</div>
+        <span class="badge blue">Reactivated</span>
+      </div>
+    </div>
+  </div>
+  <div class="callout blue" style="margin-top:14px;">
+    <strong>Goal by end of Phase 2:</strong> Luke and Landon are no longer the bottleneck for content volume. The intern + Jewel + Frank can keep all four accounts fed without waiting on founders.
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- PHASE 3 -->
+<div class="phase-block">
+  <div class="phase-label end">Phase 3 — End State (SMM hired)</div>
+  <div class="org">
+    <div class="tier">
+      <div class="node smm">
+        <div class="node-role">Social Media Manager</div>
+        <div class="node-name">TBD</div>
+        <div class="node-detail">All 4 accounts · ideas · scheduling · player mgmt · performance</div>
+        <span class="badge orange">Key hire</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="tier">
+      <div class="node intern">
+        <div class="node-role">Video Intern</div>
+        <div class="node-name">TBD</div>
+        <div class="node-detail">Filming · b-roll · selects</div>
+        <span class="badge purple">In seat</span>
+      </div>
+      <div class="node editor">
+        <div class="node-role">Editor + Acct Mgr · App</div>
+        <div class="node-name">Jewel</div>
+        <div class="node-detail">App IG + TikTok</div>
+        <span class="badge blue">In seat</span>
+      </div>
+      <div class="node editor">
+        <div class="node-role">Editor · Brand</div>
+        <div class="node-name">Frank</div>
+        <div class="node-detail">Brand IG + TikTok</div>
+        <span class="badge blue">In seat</span>
+      </div>
+    </div>
+    <div class="connector-v"></div>
+    <div class="tier">
+      <div class="node founder ghost">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Luke</div>
+        <div class="node-detail">Optional · appears when he wants to</div>
+        <span class="badge grey">Out of the loop</span>
+      </div>
+      <div class="node founder ghost">
+        <div class="node-role">Co-founder</div>
+        <div class="node-name">Landon</div>
+        <div class="node-detail">Optional · appears when he wants to</div>
+        <span class="badge grey">Out of the loop</span>
+      </div>
+    </div>
+  </div>
+  <div class="callout orange" style="margin-top:14px;">
+    <strong>The SMM owns the machine.</strong> They generate video ideas, brief the intern, manage Jewel and Frank, track performance across all four accounts, and bring Luke in only for final calls or when a founder moment would genuinely move the needle. Content flows in, posts flow out — Luke and Landon are passengers, not drivers.
+  </div>
+</div>
+
+</body>
+</html>
