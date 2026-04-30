@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content System — Humanitees</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0a0a; color: #f0f0f0; padding: 24px 16px 60px; max-width: 900px; margin: 0 auto; }
+
+  h1 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+  p.sub { font-size: 0.78rem; color: #666; margin-bottom: 14px; }
+
+  .phase-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .phase-tab { padding: 6px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border: 1.5px solid; }
+  .phase-tab.p1 { border-color: #4caf82; color: #4caf82; background: #0d2218; }
+  .phase-tab.p2 { border-color: #f5a623; color: #f5a623; background: #2a1800; }
+  .phase-tab.p3 { border-color: #e879f9; color: #e879f9; background: #20082a; }
+  .phase-tab.active { opacity: 1; }
+  .phase-tab:not(.active) { opacity: 0.3; }
+
+  .phase-panel { display: none; }
+  .phase-panel.active { display: block; }
+
+  .phase-banner { border-radius: 10px; padding: 12px 16px; margin-bottom: 22px; }
+  .phase-banner.p1 { background: #0d2218; border-left: 4px solid #4caf82; }
+  .phase-banner.p2 { background: #1c1000; border-left: 4px solid #f5a623; }
+  .phase-banner.p3 { background: #160822; border-left: 4px solid #e879f9; }
+  .pb-title { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .p1 .pb-title { color: #4caf82; }
+  .p2 .pb-title { color: #f5a623; }
+  .p3 .pb-title { color: #e879f9; }
+  .pb-desc { font-size: 0.75rem; color: #aaa; line-height: 1.5; }
+
+  /* FLOW */
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  .flow-step { width: 100%; max-width: 480px; }
+
+  .arrow { display: flex; flex-direction: column; align-items: center; margin: 4px auto; }
+  .arrow .line { width: 2px; height: 20px; background: #252525; }
+  .arrow .head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #252525; }
+  .arrow .lbl { font-size: 0.56rem; color: #3a3a3a; margin-top: 3px; white-space: nowrap; }
+
+  /* NODES */
+  .node { border-radius: 11px; padding: 13px 15px; border: 1.5px solid #222; width: 100%; }
+  .node.smm   { background: #1c1500; border-color: #f5a623; }
+  .node.ops   { background: #20082a; border-color: #e879f9; }
+  .node.smm-ops { background: #1c1008; border-color: #f5a623; border-style: solid; position: relative; }
+  .node.edit  { background: #0d1a2e; border-color: #5b9cf6; }
+  .node.drive { background: #101a0d; border-color: #6abf69; }
+  .node.out   { background: #0d0d0d; border-color: #1e1e1e; }
+  .node.founder { background: #0d1f14; border-color: #4caf82; }
+  .node.ghost { background: #111; border-color: #1a1a1a; opacity: 0.38; }
+
+  .node-role { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 2px; }
+  .node-name { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+  .node-detail { font-size: 0.7rem; color: #888; line-height: 1.4; margin-bottom: 2px; }
+  .tasks { margin-top: 8px; padding-top: 8px; border-top: 1px solid #1e1e1e; display: flex; flex-direction: column; gap: 3px; }
+  .t { font-size: 0.67rem; color: #bbb; display: flex; gap: 6px; line-height: 1.4; }
+  .t::before { content: "→"; color: #333; flex-shrink: 0; }
+
+  .badge { display: inline-block; font-size: 0.52rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-top: 7px; }
+  .badge.orange { background: #3a2500; color: #f5a623; }
+  .badge.pink   { background: #280838; color: #e879f9; }
+  .badge.blue   { background: #0d1a30; color: #5b9cf6; }
+  .badge.green  { background: #0d2a1a; color: #4caf82; }
+  .badge.grey   { background: #1a1a1a; color: #555; }
+  .badge.lime   { background: #152010; color: #6abf69; }
+
+  /* INPUTS GRID */
+  .inputs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 480px; }
+  @media (min-width: 500px) { .inputs-grid { grid-template-columns: repeat(4, 1fr); } }
+  .input-chip { background: #131313; border: 1px solid #222; border-radius: 8px; padding: 9px 8px; text-align: center; font-size: 0.68rem; color: #999; line-height: 1.35; }
+  .input-chip strong { display: block; color: #ddd; font-size: 0.72rem; margin-bottom: 2px; }
+
+  /* EDITORS SPLIT */
+  .editors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; }
+  .editor-card { border-radius: 10px; padding: 12px; border: 1.5px solid #5b9cf6; background: #0d1a2e; }
+  .ec-lane { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; font-weight: 700; }
+  .ec-lane.brand { color: #4caf82; }
+  .ec-lane.app   { color: #5b9cf6; }
+  .ec-name { font-size: 0.9rem; font-weight: 800; margin-bottom: 5px; }
+  .ec-inputs { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 7px; }
+  .ec-input-tag { font-size: 0.58rem; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+  .ec-input-tag.footage { background: #1e0d35; color: #a78bfa; }
+  .ec-input-tag.brief   { background: #3a2500; color: #f5a623; }
+  .ec-task { font-size: 0.65rem; color: #aaa; display: flex; gap: 5px; line-height: 1.4; }
+  .ec-task::before { content: "→"; color: #333; flex-shrink: 0; }
+
+  /* OUTPUTS */
+  .out-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; width: 100%; max-width: 480px; }
+  @media (min-width: 500px) { .out-grid { grid-template-columns: repeat(4,1fr); } }
+  .out-card { background: #0d0d0d; border: 1.5px solid #1e1e1e; border-radius: 9px; padding: 10px; text-align: center; }
+  .out-platform { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; color: #444; margin-bottom: 3px; }
+  .out-account { font-size: 0.78rem; font-weight: 700; margin-bottom: 4px; }
+  .out-account.g { color: #4caf82; }
+  .out-account.b { color: #5b9cf6; }
+  .out-who { font-size: 0.62rem; color: #555; }
+  .out-who span { font-weight: 700; }
+  .out-who span.so { color: #f5a623; }
+  .out-who span.ed { color: #5b9cf6; }
+
+  .feedback { background: #0f0a18; border: 1.5px dashed #2a2a2a; border-radius: 10px; padding: 12px 14px; width: 100%; max-width: 480px; margin-top: 4px; }
+  .fb-title { font-size: 0.56rem; text-transform: uppercase; letter-spacing: 0.1em; color: #444; margin-bottom: 7px; font-weight: 700; }
+  .fb-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .fb-item { background: #141020; border-radius: 5px; padding: 4px 8px; font-size: 0.64rem; color: #888; }
+  .fb-item strong { color: #bbb; }
+
+  .dual-badge { display: inline-flex; gap: 5px; margin-top: 7px; flex-wrap: wrap; }
+
+  .split-trigger { background: #1a0a24; border: 1px dashed #e879f920; border-radius: 8px; padding: 10px 12px; font-size: 0.72rem; color: #aaa; line-height: 1.5; width: 100%; max-width: 480px; margin-top: 4px; }
+  .split-trigger strong { color: #e879f9; }
+</style>
+</head>
+<body>
+
+<h1>Content System — Humanitees</h1>
+<p class="sub">How content goes from idea to post</p>
+
+<div class="phase-tabs">
+  <div class="phase-tab p1 active" onclick="showPhase('p1')">Phase 1 — Now</div>
+  <div class="phase-tab p2" onclick="showPhase('p2')">Phase 2 — SMM hired</div>
+  <div class="phase-tab p3" onclick="showPhase('p3')">Phase 3 — Full machine</div>
+</div>
+
+<!-- ══════════════ PHASE 1 ══════════════ -->
+<div class="phase-panel active" id="phase-p1">
+  <div class="phase-banner p1">
+    <div class="pb-title">Phase 1 — Right Now (May)</div>
+    <div class="pb-desc">Luke is doing everything — ideas, direction, filming, managing Jewel. Goal this phase: start posting, define what good looks like, and document decisions so the SMM can inherit a real system.</div>
+  </div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="node founder">
+        <div class="node-role">Doing everything</div>
+        <div class="node-name">Luke + Landon</div>
+        <div class="tasks">
+          <div class="t">Generate ideas + set creative direction</div>
+          <div class="t">Film all content</div>
+          <div class="t">Direct Jewel on edits</div>
+          <div class="t">Review + approve all posts</div>
+        </div>
+        <span class="badge green">Founders wearing all hats</span>
+      </div>
+    </div>
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Footage + direction to</div></div>
+    <div class="flow-step">
+      <div class="node edit">
+        <div class="node-role">Editor + Acct Mgr · App</div>
+        <div class="node-name">Jewel</div>
+        <div class="tasks">
+          <div class="t">Edits app content per Luke's direction</div>
+          <div class="t">Posts to App IG + TikTok</div>
+          <div class="t">Monitors engagement</div>
+        </div>
+        <span class="badge blue">App lane only</span>
+      </div>
+    </div>
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Live on</div></div>
+    <div class="out-grid">
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account g">Official</div><div class="out-who"><span style="color:#555;">Paused — Frank offline</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account g">Official</div><div class="out-who"><span style="color:#555;">Paused — Frank offline</span></div></div>
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="ed">Jewel</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="ed">Jewel</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 2 ══════════════ -->
+<div class="phase-panel" id="phase-p2">
+  <div class="phase-banner p2">
+    <div class="pb-title">Phase 2 — SMM hired (June–July)</div>
+    <div class="pb-desc">The SMM owns both the creative and operational sides — strategy, intake coordination, and posting. Same job as Phase 3's SMM + Ops Manager combined. Luke and Landon step back. Intern comes on. Frank returns.</div>
+  </div>
+  <div class="flow">
+
+    <div class="flow-step">
+      <div class="node smm-ops">
+        <div class="node-role">Strategy + Operations — one person</div>
+        <div class="node-name">Social Media Manager</div>
+        <div class="node-detail">Owns the full pipeline from idea to post.</div>
+        <div class="tasks">
+          <div class="t">Generates all video ideas + content strategy</div>
+          <div class="t">Writes briefs for every piece of content</div>
+          <div class="t">Coordinates all content sources — intern, ambassadors, UGC, Luke/Landon</div>
+          <div class="t">Chases down footage from every input channel</div>
+          <div class="t">Organizes Drive — labels, triages, routes footage to editors</div>
+          <div class="t">Reviews final cuts + writes captions and CTAs</div>
+          <div class="t">Schedules + posts all 4 accounts</div>
+          <div class="t">Tracks performance weekly → feeds back into ideas</div>
+          <div class="t">Sends Luke one weekly summary — no action needed</div>
+        </div>
+        <div class="dual-badge">
+          <span class="badge orange">Creative strategy</span>
+          <span class="badge pink">Pipeline ops</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Directs and coordinates</div></div>
+
+    <div class="inputs-grid">
+      <div class="input-chip"><strong>Intern</strong>Brand + app footage</div>
+      <div class="input-chip"><strong>Luke + Landon</strong>Founder moments (optional)</div>
+      <div class="input-chip"><strong>Ambassadors</strong>Testimonials, organic clips</div>
+      <div class="input-chip"><strong>Paid UGC</strong>Student-filmed content</div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Organized footage + briefs to editors</div></div>
+
+    <div class="editors">
+      <div class="editor-card">
+        <div class="ec-lane brand">Brand Lane</div>
+        <div class="ec-name">Frank</div>
+        <div class="ec-inputs">
+          <span class="ec-input-tag footage">Footage from SMM</span>
+          <span class="ec-input-tag brief">Brief from SMM</span>
+        </div>
+        <div class="ec-task">Cuts, captions, uploads final to Drive</div>
+      </div>
+      <div class="editor-card">
+        <div class="ec-lane app">App Lane</div>
+        <div class="ec-name">Jewel</div>
+        <div class="ec-inputs">
+          <span class="ec-input-tag footage">Footage from SMM</span>
+          <span class="ec-input-tag brief">Brief from SMM</span>
+        </div>
+        <div class="ec-task">Cuts, captions, uploads final to Drive</div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Finals land in Drive "Ready" → SMM posts</div></div>
+
+    <div class="out-grid">
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account g">Official</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Frank</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account g">Official</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Frank</span></div></div>
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Jewel</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Jewel</span></div></div>
+    </div>
+
+    <div class="feedback">
+      <div class="fb-title">SMM closes the loop weekly</div>
+      <div class="fb-row">
+        <div class="fb-item"><strong>Performance data</strong> → informs next week's ideas</div>
+        <div class="fb-item"><strong>Ambassador signups</strong> → tracked per post</div>
+        <div class="fb-item"><strong>Luke</strong> → one weekly message, optional</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 3 ══════════════ -->
+<div class="phase-panel" id="phase-p3">
+  <div class="phase-banner p3">
+    <div class="pb-title">Phase 3 — Full Machine (Ops Manager hired)</div>
+    <div class="pb-desc">The SMM was spending too much time coordinating content instead of thinking about strategy — that's the trigger. The ops role splits off into a dedicated Content Ops Manager. SMM focuses purely on creative and posting. Luke and Landon are fully optional.</div>
+  </div>
+  <div class="flow">
+
+    <!-- SMM: STRATEGY -->
+    <div class="flow-step">
+      <div class="node smm">
+        <div class="node-role">Strategy + Publishing — pure focus</div>
+        <div class="node-name">Social Media Manager</div>
+        <div class="tasks">
+          <div class="t">Generates all video ideas + content strategy</div>
+          <div class="t">Writes briefs — what to film, format, hook, which lane</div>
+          <div class="t">Maintains content calendar across all 4 accounts</div>
+          <div class="t">Passes briefs to Ops Manager to execute</div>
+        </div>
+        <span class="badge orange">Ideas + strategy only</span>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Briefs flow to</div></div>
+
+    <!-- OPS MANAGER -->
+    <div class="flow-step">
+      <div class="node ops">
+        <div class="node-role">Pipeline + Coordination</div>
+        <div class="node-name">Content Ops Manager</div>
+        <div class="tasks">
+          <div class="t">Manages intern day-to-day — directs shoots, reviews footage</div>
+          <div class="t">Chases ambassadors + UGC creators for deliverables</div>
+          <div class="t">Coordinates Luke/Landon when a founder moment is needed</div>
+          <div class="t">Receives all footage, labels, triages — usable vs. reshoot</div>
+          <div class="t">Organizes Drive and routes footage + briefs to right editor</div>
+        </div>
+        <span class="badge pink">Ops only — not creative</span>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Coordinates all sources</div></div>
+
+    <!-- INPUTS -->
+    <div class="inputs-grid">
+      <div class="input-chip"><strong>Intern</strong>Brand + app footage</div>
+      <div class="input-chip"><strong>Luke + Landon</strong>Optional founder moments</div>
+      <div class="input-chip"><strong>Ambassadors</strong>Testimonials, organic clips</div>
+      <div class="input-chip"><strong>Paid UGC</strong>Student-filmed content</div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Footage back to Ops Manager → organized + routed</div></div>
+
+    <!-- EDITORS: receive from BOTH -->
+    <div class="editors">
+      <div class="editor-card">
+        <div class="ec-lane brand">Brand Lane</div>
+        <div class="ec-name">Frank</div>
+        <div class="ec-inputs">
+          <span class="ec-input-tag footage">Footage from Ops</span>
+          <span class="ec-input-tag brief">Brief from SMM</span>
+        </div>
+        <div class="ec-task">Cuts, captions, exports final to Drive "Ready"</div>
+      </div>
+      <div class="editor-card">
+        <div class="ec-lane app">App Lane</div>
+        <div class="ec-name">Jewel</div>
+        <div class="ec-inputs">
+          <span class="ec-input-tag footage">Footage from Ops</span>
+          <span class="ec-input-tag brief">Brief from SMM</span>
+        </div>
+        <div class="ec-task">Cuts, captions, exports final to Drive "Ready"</div>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Finals in Drive "Ready" → back to SMM</div></div>
+
+    <!-- SMM: POSTING -->
+    <div class="flow-step">
+      <div class="node smm">
+        <div class="node-role">Publishing + Performance</div>
+        <div class="node-name">Social Media Manager</div>
+        <div class="tasks">
+          <div class="t">Reviews final cuts against brief</div>
+          <div class="t">Writes captions, hashtags, CTAs</div>
+          <div class="t">Schedules + posts all 4 accounts</div>
+          <div class="t">Monitors comments, DMs, engagement</div>
+          <div class="t">Tracks performance — doubles what works, kills what doesn't</div>
+          <div class="t">Feeds data back into next round of ideas</div>
+          <div class="t">Sends Luke one weekly summary — no action needed</div>
+        </div>
+        <span class="badge orange">Posts everything · closes the loop</span>
+      </div>
+    </div>
+
+    <div class="arrow"><div class="line"></div><div class="head"></div><div class="lbl">Live on all 4 accounts</div></div>
+
+    <div class="out-grid">
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account g">Official</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Frank</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account g">Official</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Frank</span></div></div>
+      <div class="out-card"><div class="out-platform">Instagram</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Jewel</span></div></div>
+      <div class="out-card"><div class="out-platform">TikTok</div><div class="out-account b">App</div><div class="out-who">Posted by <span class="so">SMM</span></div><div class="out-who">Edited by <span class="ed">Jewel</span></div></div>
+    </div>
+
+    <div class="feedback">
+      <div class="fb-title">SMM closes the loop weekly</div>
+      <div class="fb-row">
+        <div class="fb-item"><strong>Performance data</strong> → new ideas next cycle</div>
+        <div class="fb-item"><strong>Reshoot flags</strong> → Ops Manager re-briefs intern</div>
+        <div class="fb-item"><strong>Ambassador signups</strong> → tracked per post</div>
+        <div class="fb-item"><strong>Luke</strong> → one message, fully optional</div>
+      </div>
+    </div>
+
+    <div class="split-trigger">
+      <strong>The trigger for this phase:</strong> When the SMM is consistently spending more time coordinating footage and chasing people than thinking about strategy — that's when the ops role splits off. Not a date, a signal.
+    </div>
+
+  </div>
+</div>
+
+<script>
+function showPhase(id) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('phase-' + id).classList.add('active');
+  document.querySelector('.phase-tab.' + id).classList.add('active');
+}
+</script>
+</body>
+</html>
