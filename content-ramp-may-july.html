@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Humanitees Content Ramp — May–July 2026</title>
+  <style>
+    :root {
+      --green: #2d6a4f;
+      --green-light: #d8f3dc;
+      --green-mid: #74c69d;
+      --teal: #1b4332;
+      --amber: #e9c46a;
+      --amber-light: #fdf4d7;
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #ddd;
+      --bg: #f9f9f7;
+      --white: #ffffff;
+      --brand-blue: #264653;
+      --app-green: #2d6a4f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 0 0 60px;
+    }
+
+    .hero {
+      background: var(--teal);
+      color: white;
+      padding: 32px 20px 24px;
+    }
+    .hero h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+    .hero p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .section {
+      padding: 28px 20px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .section-num {
+      background: var(--green);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    /* Month goals grid */
+    .month-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .month-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .month-card-header {
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      color: white;
+    }
+
+    .may-header { background: var(--brand-blue); }
+    .jun-header { background: var(--app-green); }
+    .jul-header { background: #a44a3f; }
+
+    .month-card-body {
+      padding: 14px 16px;
+    }
+
+    .goal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 7px 0;
+      border-bottom: 1px solid #f0f0f0;
+      gap: 12px;
+    }
+    .goal-row:last-child { border-bottom: none; }
+
+    .goal-label {
+      font-size: 13px;
+      color: var(--muted);
+      flex-shrink: 0;
+      width: 130px;
+    }
+    .goal-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+    }
+    .goal-note {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Phase badge */
+    .phase-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .phase-ramp { background: #e8f4fd; color: #1a6fa3; }
+    .phase-build { background: var(--green-light); color: var(--green); }
+    .phase-scale { background: #fde8e8; color: #a33b1a; }
+
+    /* Calendar */
+    .calendar-week {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: #f2f2f0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .week-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .week-dates {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .week-lanes {
+      padding: 12px 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .lane {
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .lane-brand { background: #edf2fb; border-left: 3px solid var(--brand-blue); }
+    .lane-app { background: var(--green-light); border-left: 3px solid var(--app-green); }
+
+    .lane-name {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .lane-brand .lane-name { color: var(--brand-blue); }
+    .lane-app .lane-name { color: var(--app-green); }
+
+    .lane-pillar {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .lane-detail {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .lane-coord {
+      font-size: 11px;
+      font-style: italic;
+      color: var(--green);
+      margin-top: 5px;
+    }
+
+    /* Month divider in calendar */
+    .month-divider {
+      padding: 10px 14px 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border-top: 2px solid var(--border);
+      margin-top: 10px;
+    }
+    .month-divider:first-child { border-top: none; }
+
+    /* Video ideas */
+    .idea-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .idea-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .idea-num {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ddd;
+      flex-shrink: 0;
+      width: 28px;
+    }
+
+    .idea-body { flex: 1; }
+
+    .idea-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .idea-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .idea-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .tag-brand { background: #edf2fb; color: var(--brand-blue); }
+    .tag-app { background: var(--green-light); color: var(--app-green); }
+    .tag-luke { background: #fff3e0; color: #bf6d00; }
+    .tag-landon { background: #f3e5f5; color: #6a1b9a; }
+    .tag-both { background: #fce4ec; color: #880e4f; }
+
+    /* Intern section */
+    .intern-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .intern-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+
+    .intern-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .intern-card-body {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .intern-card-body ul {
+      padding-left: 16px;
+      margin-top: 4px;
+    }
+
+    .intern-card-body li {
+      margin-bottom: 3px;
+    }
+
+    .callout {
+      background: var(--amber-light);
+      border-left: 3px solid var(--amber);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .callout strong { color: var(--teal); }
+
+    /* Divider */
+    hr.section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 20px 0;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 28px 20px 0;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    @media (min-width: 600px) {
+      .month-grid { grid-template-columns: repeat(3, 1fr); }
+      .intern-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Humanitees Content Ramp</h1>
+  <p>May–July 2026 &nbsp;·&nbsp; 4 accounts &nbsp;·&nbsp; Goal: ambassador signups via the app</p>
+</div>
+
+<!-- SECTION 1: MONTHLY GOALS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Monthly Goals</div>
+  </div>
+
+  <div class="callout">
+    Starting from zero. These are honest targets — not aspirational. Follower counts at this scale are a lagging indicator; the number that matters is ambassador signups from the app accounts.
+  </div>
+
+  <div class="month-grid">
+
+    <!-- MAY -->
+    <div class="month-card">
+      <div class="month-card-header may-header">
+        May — Phase 1: Ramp
+        <span class="phase-badge phase-ramp" style="margin-left:8px;">Ramp</span>
+      </div>
+      <div class="month-card-body">
+        <div class="goal-row">
+          <div class="goal-label">Posts per account</div>
+          <div class="goal-value">1/week
+            <div class="goal-note">4 accounts = 4/week total</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Total posts (month)</div>
+          <div class="goal-value">~16
+            <div class="goal-note">Cross-posting within lanes</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Followers (per account)</div>
+          <div class="goal-value">0 → 100–300
+            <div class="goal-note">Organic, no paid</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Ambassador signups</div>
+          <div class="goal-value">+10–20
+            <div class="goal-note">From ~50 base</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Primary focus</div>
+          <div class="goal-value">Pipeline & rhythm
+            <div class="goal-note">Get the machine running</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUNE -->
+    <div class="month-card">
+      <div class="month-card-header jun-header">
+        June — Phase 2: Build
+        <span class="phase-badge phase-build" style="margin-left:8px;">Build</span>
+      </div>
+      <div class="month-card-body">
+        <div class="goal-row">
+          <div class="goal-label">Posts per account</div>
+          <div class="goal-value">2/week
+            <div class="goal-note">Advance only if footage supply holds</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Total posts (month)</div>
+          <div class="goal-value">~32</div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Followers (per account)</div>
+          <div class="goal-value">300–1,000
+            <div class="goal-note">Expect first viral outlier here</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Ambassador signups</div>
+          <div class="goal-value">+25–50
+            <div class="goal-note">First ambassador spotlights live</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Primary focus</div>
+          <div class="goal-value">Format testing
+            <div class="goal-note">Learn what hits, kill what doesn't</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JULY -->
+    <div class="month-card">
+      <div class="month-card-header jul-header" style="background: #a44a3f;">
+        July — Phase 2→3: Scale
+        <span class="phase-badge phase-scale" style="margin-left:8px;">Scale</span>
+      </div>
+      <div class="month-card-body">
+        <div class="goal-row">
+          <div class="goal-label">Posts per account</div>
+          <div class="goal-value">3–5/week
+            <div class="goal-note">Only if intern is in seat</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Total posts (month)</div>
+          <div class="goal-value">~48–80</div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Followers (per account)</div>
+          <div class="goal-value">1,000–5,000
+            <div class="goal-note">Wide range; depends on hits</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Ambassador signups</div>
+          <div class="goal-value">+50–100
+            <div class="goal-note">Compounding from June growth</div>
+          </div>
+        </div>
+        <div class="goal-row">
+          <div class="goal-label">Primary focus</div>
+          <div class="goal-value">Double down on hits
+            <div class="goal-note">Retire everything that underperformed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /month-grid -->
+</div><!-- /section 1 -->
+
+<hr class="section-rule">
+
+<!-- SECTION 2: CONTENT CALENDAR -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Content Calendar Framework</div>
+  </div>
+
+  <div class="callout">
+    Brand lane = Official TT + Official IG (Frank edits). App lane = App TT + App IG (Jewel edits). Each week lists the primary content pillar per lane — not a post-by-post schedule. Cross-posting within lanes is default; never cross lanes.
+  </div>
+
+  <!-- MAY -->
+  <div class="month-divider">May 2026</div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 1</div>
+      <div class="week-dates">Apr 30 – May 4</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Who we are</div>
+        <div class="lane-detail">Founder origin story. The relaunch. Why this, why now. Sets the brand identity from day one.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Why we built the app</div>
+        <div class="lane-detail">Luke or Landon on camera: the problem they saw, what they built. Personal, direct. Drives first downloads.</div>
+        <div class="lane-coord">Coord: Same filming session can feed both lanes — different cut, different message.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 2</div>
+      <div class="week-dates">May 5–11</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Product showcase</div>
+        <div class="lane-detail">Shirts on real people in real life. No studio. Lifestyle context. Makes you want to own one.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">What ambassadors actually do</div>
+        <div class="lane-detail">Demystify the program. Show the app. Make it look effortless to join. No commission framing — community framing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 3</div>
+      <div class="week-dates">May 12–18</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Brand heritage</div>
+        <div class="lane-detail">The 90s origin. What survived, what changed, why the mission is the same. Nostalgia without being corny — this hooks the older audience too.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">The impact angle</div>
+        <div class="lane-detail">Specific, measurable: what the community creates together. A scoreboard, not a lecture. Makes people feel like they're missing out.</div>
+        <div class="lane-coord">Coord: Brand heritage week is a good moment for app to contrast "old model vs. new model."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 4</div>
+      <div class="week-dates">May 19–25</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Behind the brand</div>
+        <div class="lane-detail">Raw, real. Day in the life, what's being built, candid moments. Less polished than week 2. Balance of register.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Building something big</div>
+        <div class="lane-detail">The vision. Where this is going. Early-stage energy. Not "we have 50 ambassadors" — "we're building something and you should be in early."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUNE -->
+  <div class="month-divider">June 2026</div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 5</div>
+      <div class="week-dates">May 26 – Jun 1</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Environmental storytelling</div>
+        <div class="lane-detail">Specific and visual. A number, a fact, a before/after. Not "save the planet" — "here's what the material actually does differently."</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Founder identity, vol. 2</div>
+        <div class="lane-detail">Deeper on Luke and Landon. Who they are outside the brand. Why people should trust them to build this. Relationship-building content.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 6</div>
+      <div class="week-dates">Jun 2–8</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Community + social proof</div>
+        <div class="lane-detail">People wearing the brand. Ambassadors in the wild (if footage available). Wearers tagging. Real humans, not models.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">First ambassador spotlight</div>
+        <div class="lane-detail">Feature one real ambassador. Brief, personal, specific to their story. The template for all future spotlight content.</div>
+        <div class="lane-coord">Coord: Brand community week + App ambassador spotlight = same momentum, different angles.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 7</div>
+      <div class="week-dates">Jun 9–15</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Product + trend hook</div>
+        <div class="lane-detail">Reactive content. Use a current TikTok/IG audio trend or format as the vehicle. The shirts are the payload. Frank's call on the format.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Trending / reactive</div>
+        <div class="lane-detail">Same posture — zeitgeist format, ambassador message as the payload. Jewel's call. Don't force a trend if it doesn't fit.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 8</div>
+      <div class="week-dates">Jun 16–22</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Mid-ramp review content</div>
+        <div class="lane-detail">Double down on the top-performing pillar from weeks 1–4. If heritage hit, do more heritage. If product hit, do more product. Data decides.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Mid-ramp review content</div>
+        <div class="lane-detail">Same logic — repeat what worked in May. Ambassador spotlight vol. 2 if the first one converted.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Week 9</div>
+      <div class="week-dates">Jun 23–29</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Behind the brand, vol. 2</div>
+        <div class="lane-detail">What's been built in two months. Where we're going. Progress-as-content. Authentic and unrehearsed.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Community milestone</div>
+        <div class="lane-detail">Call out the ambassador growth publicly. Numbers make it real. If you've added 30 ambassadors, say it. Creates FOMO for the holdouts.</div>
+        <div class="lane-coord">Coord: Brand progress + App milestone = coordinated momentum story end of June.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JULY -->
+  <div class="month-divider">July 2026</div>
+
+  <div class="calendar-week">
+    <div class="week-header">
+      <div class="week-label">Weeks 10–13 (July)</div>
+      <div class="week-dates">Jun 30 – Jul 27</div>
+    </div>
+    <div class="week-lanes">
+      <div class="lane lane-brand">
+        <div class="lane-name">Brand (Official)</div>
+        <div class="lane-pillar">Scale the hits. Test new formats.</div>
+        <div class="lane-detail">3–5 posts/week if intern is in seat. Rotate: product showcase, heritage, environmental, community. Retire underperformers. Run A/B on hooks.</div>
+      </div>
+      <div class="lane lane-app">
+        <div class="lane-name">App</div>
+        <div class="lane-pillar">Ambassador-led content engine</div>
+        <div class="lane-detail">Weekly ambassador spotlights. Founder content drops to 50% of feed — ambassadors carry more of the load. FOMO flywheel kicks in if June hit targets.</div>
+        <div class="lane-coord">Coord: July is when the two lanes start to feel like a coherent brand universe — same mission, different lenses.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /section 2 -->
+
+<hr class="section-rule">
+
+<!-- SECTION 3: VIDEO IDEAS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">May Video Ideas (Filmable Now)</div>
+  </div>
+
+  <div class="callout">
+    All phone-filmable. No production crew needed. TikTok and Reels-first — vertical, 15–45s. Hook must land in the first 1.5 seconds.
+  </div>
+
+  <div class="idea-list">
+
+    <div class="idea-card">
+      <div class="idea-num">01</div>
+      <div class="idea-body">
+        <div class="idea-title">"We killed the brand once. Here's why we brought it back."</div>
+        <div class="idea-desc">Luke straight to camera, no cuts. One-take energy. The honest story of why Humanitees went away and what made him relaunch it. Hook is the admission — not a brag. 30–40s.</div>
+        <div class="idea-meta">
+          <span class="tag tag-brand">Brand lane</span>
+          <span class="tag tag-luke">Luke</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">02</div>
+      <div class="idea-body">
+        <div class="idea-title">"We made an app so anyone could be a brand ambassador in 30 seconds."</div>
+        <div class="idea-desc">Landon demos the app on screen while narrating. Screen record + talking head. The hook is the claim — then the proof. Drives downloads. 20–30s.</div>
+        <div class="idea-meta">
+          <span class="tag tag-app">App lane</span>
+          <span class="tag tag-landon">Landon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">03</div>
+      <div class="idea-body">
+        <div class="idea-title">The shirt worn everywhere (broll montage, no talking)</div>
+        <div class="idea-desc">Quick cuts of Luke and/or Landon wearing the shirt in real daily contexts — coffee, outside, working, out at night. No voiceover. Music-driven. Text overlay: one line about the material. Makes people want it.</div>
+        <div class="idea-meta">
+          <span class="tag tag-brand">Brand lane</span>
+          <span class="tag tag-both">Both</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">04</div>
+      <div class="idea-body">
+        <div class="idea-title">"Here's what we're building and why it's different."</div>
+        <div class="idea-desc">Landon, one-take, talking to camera about the app vision. Not a pitch — a builder talking about what they're making. The kind of video where viewers feel like they got a look inside before it's big. 30s max.</div>
+        <div class="idea-meta">
+          <span class="tag tag-app">App lane</span>
+          <span class="tag tag-landon">Landon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">05</div>
+      <div class="idea-body">
+        <div class="idea-title">Side-by-side: "conventional brand ambassador program vs. ours"</div>
+        <div class="idea-desc">Split screen or fast cut between the two. Luke narrates. Point isn't to trash competitors — it's to make the low barrier feel remarkable. Hook: "Brand ambassador programs used to require..." 20–25s.</div>
+        <div class="idea-meta">
+          <span class="tag tag-app">App lane</span>
+          <span class="tag tag-luke">Luke</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">06</div>
+      <div class="idea-body">
+        <div class="idea-title">The 90s brand re-emerging — then vs. now</div>
+        <div class="idea-desc">If there are any archival photos or footage of the original brand, use them. Text overlay intercutting past and present. If no archive, Luke describes it in voiceover over current brand visuals. Hooks the nostalgia audience and the new audience simultaneously.</div>
+        <div class="idea-meta">
+          <span class="tag tag-brand">Brand lane</span>
+          <span class="tag tag-luke">Luke</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">07</div>
+      <div class="idea-body">
+        <div class="idea-title">"We have [X] ambassadors and we just got started"</div>
+        <div class="idea-desc">Luke or Landon walking, phone-in-hand POV, talking directly about the early momentum. Specific numbers. The tone is: something's forming here. Makes viewers want to be in before it's bigger. 15–20s.</div>
+        <div class="idea-meta">
+          <span class="tag tag-app">App lane</span>
+          <span class="tag tag-both">Both</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="idea-card">
+      <div class="idea-num">08</div>
+      <div class="idea-body">
+        <div class="idea-title">The material, explained without buzzwords</div>
+        <div class="idea-desc">Landon holds the shirt and talks about what it's actually made from and what that means in plain English. No "sustainable" or "eco-friendly." Specific: "it uses X% less water than conventional cotton." Builds trust through specificity. 25–35s.</div>
+        <div class="idea-meta">
+          <span class="tag tag-brand">Brand lane</span>
+          <span class="tag tag-landon">Landon</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /section 3 -->
+
+<hr class="section-rule">
+
+<!-- SECTION 4: INTERN -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">Where the Intern Fits</div>
+  </div>
+
+  <div class="callout">
+    <strong>Recommended start: June, week 5 or 6.</strong> May is about building the pipeline and learning what works. Bringing someone in before the pattern is clear means training them on the wrong things. Get one month of data first.
+  </div>
+
+  <div class="intern-grid">
+
+    <div class="intern-card">
+      <div class="intern-card-title">What they own from day one</div>
+      <div class="intern-card-body">
+        <ul>
+          <li>Second camera — films Luke and Landon from an outside angle while they do their own handheld POV</li>
+          <li>B-roll capture — product detail, lifestyle context, environmental texture. The stuff founders don't have time to think about mid-shoot</li>
+          <li>Raw footage org — ingesting, labeling, dropping into Drive structure so Frank and Jewel aren't chasing files</li>
+          <li>First-pass selects — marking the 3–5 best takes from each session so editors start from a shortlist</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="intern-card">
+      <div class="intern-card-title">What they grow into (July+)</div>
+      <div class="intern-card-body">
+        <ul>
+          <li>Owning a filming session solo — brief from Luke, go shoot, return with organized footage</li>
+          <li>First-pass rough cuts for one account (App or Brand, not both at first)</li>
+          <li>Trend monitoring — watching the zeitgeist weekly and flagging relevant formats to Luke before Monday ideation</li>
+          <li>Ambassador content coordination — reaching out to ambassadors for UGC, organizing what comes back</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="intern-card">
+      <div class="intern-card-title">What to look for in the hire</div>
+      <div class="intern-card-body">
+        <ul>
+          <li>Shows you their own TikTok or IG account — they should have a point of view on what works, not just a degree</li>
+          <li>Can hold a phone steady and think about framing intuitively — not a trained filmmaker, but not oblivious either</li>
+          <li>Has edited short-form video before (CapCut, Premiere, doesn't matter — just evidence they've done it)</li>
+          <li>Genuinely interested in the brand, not just a line on a resume — the app content only works if the person filming it understands what they're selling</li>
+          <li>Available at least 15–20 hours/week consistently — a 5-hour-a-week intern breaks the pipeline</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="intern-card">
+      <div class="intern-card-title">Why June, not May</div>
+      <div class="intern-card-body">
+        May is the test month. You'll learn which pillars resonate, which hooks tank, and how the editing loop between Frank/Jewel and the founders actually runs in practice. Hiring in May means onboarding someone before you know what the job is. Start the hire process in May — post the role, run interviews — so they're in seat by June 1 or 2.
+      </div>
+    </div>
+
+  </div>
+</div><!-- /section 4 -->
+
+<div class="footer" style="padding: 28px 20px 40px;">
+  Generated April 30, 2026 &nbsp;·&nbsp; Humanitees ops agent &nbsp;·&nbsp; Zeitgeist file not yet populated — run refresh-zeitgeist on Monday to sharpen June/July recommendations.
+</div>
+
+</body>
+</html>
