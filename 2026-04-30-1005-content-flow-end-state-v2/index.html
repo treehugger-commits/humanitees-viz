@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content System — End State v2 — Humanitees</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0a0a0a; color: #f0f0f0; padding: 24px 16px 60px; max-width: 900px; margin: 0 auto; }
+
+  h1 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+  p.sub { font-size: 0.78rem; color: #666; margin-bottom: 36px; }
+
+  .section-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; color: #333; margin: 18px 0 14px; display: flex; align-items: center; gap: 10px; }
+  .section-title::before, .section-title::after { content: ''; flex: 1; height: 1px; background: #1e1e1e; }
+
+  .arrow-down { display: flex; flex-direction: column; align-items: center; margin: 2px auto; }
+  .arrow-down .line { width: 2px; height: 20px; background: #252525; }
+  .arrow-down .head { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #252525; }
+  .arrow-down .alabel { font-size: 0.58rem; color: #444; margin-top: 3px; }
+
+  .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+  .node { border-radius: 10px; padding: 11px 13px; min-width: 110px; max-width: 175px; flex: 1; border: 1.5px solid #222; }
+  .node.smm     { background: #1c1500; border-color: #f5a623; }
+  .node.founder { background: #0d1f14; border-color: #4caf82; }
+  .node.intern  { background: #160d2a; border-color: #a78bfa; }
+  .node.editor  { background: #0d1a2e; border-color: #5b9cf6; }
+  .node.input   { background: #141414; border-color: #333; }
+  .node.drive   { background: #141a10; border-color: #6abf69; }
+  .node.ghost   { background: #111; border-color: #1e1e1e; opacity: 0.4; }
+
+  .node-role   { font-size: 0.57rem; text-transform: uppercase; letter-spacing: 0.09em; color: #666; margin-bottom: 2px; }
+  .node-name   { font-size: 0.9rem; font-weight: 800; margin-bottom: 3px; }
+  .node-detail { font-size: 0.68rem; color: #999; line-height: 1.35; }
+  .node-tasks  { margin-top: 7px; padding-top: 7px; border-top: 1px solid #1e1e1e; }
+  .task-item   { font-size: 0.67rem; color: #bbb; line-height: 1.4; padding: 2px 0; display: flex; gap: 5px; }
+  .task-item::before { content: "→"; color: #444; flex-shrink: 0; }
+
+  .badge { display: inline-block; font-size: 0.53rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; margin-top: 6px; }
+  .badge.orange { background: #3a2500; color: #f5a623; }
+  .badge.green  { background: #0d2a1a; color: #4caf82; }
+  .badge.blue   { background: #0d1a30; color: #5b9cf6; }
+  .badge.purple { background: #1e0d35; color: #a78bfa; }
+  .badge.grey   { background: #1a1a1a; color: #555; }
+  .badge.drive  { background: #152010; color: #6abf69; }
+
+  .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .lanes { grid-template-columns: 1fr; } }
+  .lane { border-radius: 12px; padding: 14px; border-top: 3px solid; }
+  .lane.brand { background: #0d1a10; border-color: #4caf82; }
+  .lane.app   { background: #0a1220; border-color: #5b9cf6; }
+  .lane-title { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .lane.brand .lane-title { color: #4caf82; }
+  .lane.app   .lane-title { color: #5b9cf6; }
+
+  .outputs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (min-width: 600px) { .outputs { grid-template-columns: repeat(4, 1fr); } }
+  .out-card { background: #0d0d0d; border: 1.5px solid #1e1e1e; border-radius: 10px; padding: 12px; text-align: center; }
+  .out-platform { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.1em; color: #555; margin-bottom: 4px; }
+  .out-account { font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; }
+  .out-account.green { color: #4caf82; }
+  .out-account.blue  { color: #5b9cf6; }
+  .out-owner { font-size: 0.65rem; color: #777; }
+  .out-owner span { color: #f5a623; font-weight: 600; }
+
+  .handoff-box { background: #141a10; border: 1.5px solid #6abf69; border-radius: 12px; padding: 16px; text-align: center; max-width: 420px; margin: 0 auto; }
+  .handoff-box .hb-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #6abf69; margin-bottom: 6px; font-weight: 700; }
+  .handoff-box .hb-name { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 4px; }
+  .handoff-box .hb-detail { font-size: 0.72rem; color: #999; line-height: 1.4; }
+
+  .feedback { background: #120c1a; border: 1.5px dashed #a78bfa44; border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+  .feedback-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 8px; font-weight: 700; }
+  .feedback-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .feedback-item { background: #1a1225; border-radius: 6px; padding: 6px 10px; font-size: 0.68rem; color: #aaa; }
+  .feedback-item strong { color: #e0d0ff; }
+</style>
+</head>
+<body>
+
+<h1>Content System — End State</h1>
+<p class="sub">Optimal final iteration · ideas in, posts out, Luke optional</p>
+
+<!-- ═══ STAGE 1: INPUTS ═══ -->
+<div class="section-title">Stage 1 — Inputs & Ideas</div>
+<div class="row">
+  <div class="node input">
+    <div class="node-role">Input</div>
+    <div class="node-name">Trends & Audio</div>
+    <div class="node-detail">TikTok/IG formats, sounds, meme hooks</div>
+    <div class="node-tasks">
+      <div class="task-item">Weekly automated zeitgeist refresh</div>
+      <div class="task-item">SMM monitors daily</div>
+    </div>
+    <span class="badge grey">Always on</span>
+  </div>
+  <div class="node input">
+    <div class="node-role">Input</div>
+    <div class="node-name">Ambassador Stories</div>
+    <div class="node-detail">Real signups, testimonials, impact numbers</div>
+    <div class="node-tasks">
+      <div class="task-item">SMM collects from active ambassadors</div>
+      <div class="task-item">Jewel scouts app account DMs</div>
+    </div>
+    <span class="badge grey">As available</span>
+  </div>
+  <div class="node input">
+    <div class="node-role">Input</div>
+    <div class="node-name">Brand Moments</div>
+    <div class="node-detail">Product drops, impact data, milestones</div>
+    <div class="node-tasks">
+      <div class="task-item">SMM pulls from Shopify + Klaviyo</div>
+      <div class="task-item">Luke flags optionally</div>
+    </div>
+    <span class="badge grey">Ongoing</span>
+  </div>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">All inputs funnel to</div></div>
+
+<!-- ═══ STAGE 2: IDEATION ═══ -->
+<div class="section-title">Stage 2 — Ideation & Planning</div>
+<div class="row">
+  <div class="node smm" style="max-width:380px; flex:none; width:100%;">
+    <div class="node-role">Owns ideation entirely</div>
+    <div class="node-name">Social Media Manager</div>
+    <div class="node-detail">Turns inputs into a weekly content plan for all 4 accounts.</div>
+    <div class="node-tasks">
+      <div class="task-item">Generates video concepts weekly — both lanes</div>
+      <div class="task-item">Writes briefs: hook, format, who films, which editor</div>
+      <div class="task-item">Maintains content calendar across all 4 accounts</div>
+      <div class="task-item">Sends 1 weekly summary to Luke — no action required</div>
+      <div class="task-item">Flags anything needing Luke's face or voice</div>
+    </div>
+    <span class="badge orange">The machine's brain</span>
+  </div>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">Briefs go to production</div></div>
+
+<!-- ═══ STAGE 3: PRODUCTION ═══ -->
+<div class="section-title">Stage 3 — Production (Filming)</div>
+<div class="lanes">
+  <div class="lane brand">
+    <div class="lane-title">Brand Lane</div>
+    <div class="node intern" style="max-width:100%; margin-bottom:8px;">
+      <div class="node-role">Primary Camera</div>
+      <div class="node-name">Intern</div>
+      <div class="node-tasks">
+        <div class="task-item">Films product, lifestyle, b-roll</div>
+        <div class="task-item">Sets up shots for Luke/Landon when needed</div>
+        <div class="task-item">Labels + uploads all footage to Drive</div>
+      </div>
+      <span class="badge purple">Day-to-day camera</span>
+    </div>
+    <div class="node ghost" style="max-width:100%;">
+      <div class="node-role">Optional</div>
+      <div class="node-name">Luke + Landon</div>
+      <div class="node-detail">On camera only when a founder moment genuinely adds value</div>
+      <span class="badge grey">By choice only</span>
+    </div>
+  </div>
+  <div class="lane app">
+    <div class="lane-title">App Lane</div>
+    <div class="node intern" style="max-width:100%; margin-bottom:8px;">
+      <div class="node-role">Primary Camera</div>
+      <div class="node-name">Intern</div>
+      <div class="node-tasks">
+        <div class="task-item">Films ambassador spotlights, campus content</div>
+        <div class="task-item">Captures app walkthroughs + testimonials</div>
+        <div class="task-item">Labels + uploads all footage to Drive</div>
+      </div>
+      <span class="badge purple">Day-to-day camera</span>
+    </div>
+    <div class="node input" style="max-width:100%;">
+      <div class="node-role">External UGC</div>
+      <div class="node-name">Paid Student Creators</div>
+      <div class="node-detail">Students paid to film their own content — drops directly into Drive folder</div>
+      <span class="badge blue">Gorilla reach layer</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">All footage uploaded to</div></div>
+
+<!-- ═══ STAGE 4: DRIVE HANDOFF ═══ -->
+<div class="section-title">Stage 4 — Google Drive Handoff</div>
+<div class="handoff-box">
+  <div class="hb-label">Shared Footage Drop</div>
+  <div class="hb-name">Google Drive Folder</div>
+  <div class="hb-detail">Single source of truth. All raw footage lands here, labeled by account and week. Editors pull from it. No files sent over DM, no confusion about what's ready.</div>
+  <span class="badge drive">Central handoff point</span>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">Editors pull from Drive</div></div>
+
+<!-- ═══ STAGE 5: EDITING ═══ -->
+<div class="section-title">Stage 5 — Editing</div>
+<div class="lanes">
+  <div class="lane brand">
+    <div class="lane-title">Brand Lane</div>
+    <div class="node editor" style="max-width:100%;">
+      <div class="node-role">Editor · Brand</div>
+      <div class="node-name">Frank</div>
+      <div class="node-tasks">
+        <div class="task-item">Pulls brand footage from Drive</div>
+        <div class="task-item">Cuts per SMM brief — captions, audio, brand feel</div>
+        <div class="task-item">Uploads final video back to Drive (ready folder)</div>
+        <div class="task-item">Notifies SMM when done</div>
+      </div>
+      <span class="badge blue">Brand IG + Brand TikTok</span>
+    </div>
+  </div>
+  <div class="lane app">
+    <div class="lane-title">App Lane</div>
+    <div class="node editor" style="max-width:100%;">
+      <div class="node-role">Editor · App</div>
+      <div class="node-name">Jewel</div>
+      <div class="node-tasks">
+        <div class="task-item">Pulls app footage + UGC from Drive</div>
+        <div class="task-item">Cuts per SMM brief — captions, audio, app CTA</div>
+        <div class="task-item">Uploads final video back to Drive (ready folder)</div>
+        <div class="task-item">Notifies SMM when done</div>
+      </div>
+      <span class="badge blue">App IG + App TikTok</span>
+    </div>
+  </div>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">Final videos land in Drive "Ready" folder</div></div>
+
+<!-- ═══ STAGE 6: SMM TAKES OVER ═══ -->
+<div class="section-title">Stage 6 — Scheduling, Posting & Community</div>
+<div class="row">
+  <div class="node smm" style="max-width:380px; flex:none; width:100%;">
+    <div class="node-role">Owns everything from here</div>
+    <div class="node-name">Social Media Manager</div>
+    <div class="node-detail">Picks up all final videos from Drive and takes them live.</div>
+    <div class="node-tasks">
+      <div class="task-item">Reviews final cuts against brief — approves or sends back</div>
+      <div class="task-item">Writes captions, hashtags, CTAs for every post</div>
+      <div class="task-item">Schedules all 4 accounts on publishing tool</div>
+      <div class="task-item">Monitors comments, DMs, and engagement across all accounts</div>
+      <div class="task-item">Responds to or flags anything needing a real answer</div>
+      <div class="task-item">Tracks performance weekly — feeds back to Stage 2</div>
+    </div>
+    <span class="badge orange">Posts everything · manages everything</span>
+  </div>
+</div>
+
+<div class="arrow-down"><div class="line"></div><div class="head"></div><div class="alabel">Live on all 4 accounts</div></div>
+
+<!-- ═══ STAGE 7: OUTPUT ═══ -->
+<div class="section-title">Stage 7 — Published Output</div>
+<div class="outputs">
+  <div class="out-card">
+    <div class="out-platform">Instagram</div>
+    <div class="out-account green">Humanitees Official</div>
+    <div class="out-owner">Posted by <span>SMM</span></div>
+    <div class="out-owner" style="margin-top:3px;">Edited by <span>Frank</span></div>
+  </div>
+  <div class="out-card">
+    <div class="out-platform">TikTok</div>
+    <div class="out-account green">Humanitees Official</div>
+    <div class="out-owner">Posted by <span>SMM</span></div>
+    <div class="out-owner" style="margin-top:3px;">Edited by <span>Frank</span></div>
+  </div>
+  <div class="out-card">
+    <div class="out-platform">Instagram</div>
+    <div class="out-account blue">Humanitees App</div>
+    <div class="out-owner">Posted by <span>SMM</span></div>
+    <div class="out-owner" style="margin-top:3px;">Edited by <span>Jewel</span></div>
+  </div>
+  <div class="out-card">
+    <div class="out-platform">TikTok</div>
+    <div class="out-account blue">Humanitees App</div>
+    <div class="out-owner">Posted by <span>SMM</span></div>
+    <div class="out-owner" style="margin-top:3px;">Edited by <span>Jewel</span></div>
+  </div>
+</div>
+
+<!-- FEEDBACK LOOP -->
+<div class="feedback">
+  <div class="feedback-title">Feedback Loop — SMM closes the loop weekly</div>
+  <div class="feedback-row">
+    <div class="feedback-item"><strong>Performance data</strong> → what hit, what didn't</div>
+    <div class="feedback-item"><strong>Top formats</strong> → turned into repeatable series</div>
+    <div class="feedback-item"><strong>Ambassador signups</strong> → tracked per post</div>
+    <div class="feedback-item"><strong>New ideas</strong> → back to Stage 2</div>
+    <div class="feedback-item"><strong>Luke gets one weekly message</strong> → no action needed</div>
+  </div>
+</div>
+
+</body>
+</html>
