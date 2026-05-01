@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Humanitees App — Video Ideas</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f7f7f4;
+    color: #1a1a14;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding: 20px 16px 60px;
+  }
+
+  header {
+    max-width: 720px;
+    margin: 0 auto 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #ddddd8;
+  }
+
+  header h1 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2a2a1a;
+  }
+
+  header p {
+    font-size: 0.76rem;
+    color: #9a9a88;
+    margin-top: 4px;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 480px) {
+    .board { grid-template-columns: 1fr; }
+  }
+
+  .column {
+    background: #ededea;
+    border-radius: 10px;
+    padding: 14px 12px;
+  }
+
+  .column-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  .col-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .col-clickup .col-dot  { background: #7b68ee; }
+  .col-backlog .col-dot  { background: #aaa898; }
+
+  .column-header h2 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #5a5a48;
+  }
+
+  .count {
+    margin-left: auto;
+    font-size: 0.66rem;
+    color: #9a9a88;
+    background: #dcdcd8;
+    border-radius: 10px;
+    padding: 1px 7px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 11px 12px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e2dc;
+  }
+
+  .card:last-child { margin-bottom: 0; }
+
+  .card-title {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #1a1a14;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 0.75rem;
+    color: #6a6a58;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .tag {
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  .tag.series   { background: #fff3e0; color: #b06820; }
+  .tag.nature   { background: #e8f5e9; color: #2e7d42; }
+  .tag.founders { background: #e8f0fe; color: #2a5ab8; }
+  .tag.nofilm   { background: #f3e8ff; color: #6a28b0; }
+
+  .clickup-link {
+    font-size: 0.66rem;
+    color: #7b68ee;
+    text-decoration: none;
+    margin-left: auto;
+    font-weight: 600;
+  }
+
+  .updated {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #b8b8a8;
+    margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Humanitees App — Video Ideas</h1>
+  <p>Living brainstorm · App accounts · Tell the front desk to add or move ideas</p>
+</header>
+
+<div class="board">
+
+  <!-- IN CLICKUP -->
+  <div class="column col-clickup">
+    <div class="column-header">
+      <div class="col-dot"></div>
+      <h2>In ClickUp</h2>
+      <span class="count">1</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">The Tree</div>
+      <div class="card-desc">Static shot of a tree. Deadpan subtitles only — the tree gives Humanitees a reluctant endorsement. Pilot for the nature character universe.</div>
+      <div class="card-footer">
+        <span class="tag series">Series</span>
+        <span class="tag nature">Nature character</span>
+        <span class="tag nofilm">No crew needed</span>
+        <a class="clickup-link" href="https://app.clickup.com/t/86b9numhf">APP-001 ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOT IN CLICKUP -->
+  <div class="column col-backlog">
+    <div class="column-header">
+      <div class="col-dot"></div>
+      <h2>Not in ClickUp</h2>
+      <span class="count">2</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tree Therapist</div>
+      <div class="card-desc">Luke sits with a different tree each episode. The tree is the therapist — venting about the planet. Each species has its own personality.</div>
+      <div class="card-footer">
+        <span class="tag series">Series</span>
+        <span class="tag nature">Nature character</span>
+        <span class="tag founders">Luke on camera</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Climbing Trees &amp; Rating Them</div>
+      <div class="card-desc">Luke + Landon climb a different species each episode and rate it 1–10. Deadpan review format. Criteria can be ridiculous.</div>
+      <div class="card-footer">
+        <span class="tag series">Series</span>
+        <span class="tag founders">Luke + Landon</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="updated">Last updated May 1, 2026 · Tell the front desk to add ideas</div>
+
+</body>
+</html>
